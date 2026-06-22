@@ -86,6 +86,14 @@ var pipeline = new ResiliencePipelineBuilder()
     .Build();
 ```
 
+## Support
+
+If Polly.Contrib.Bulkhead helps protect your services, consider supporting the project:
+
+[![Sponsor](https://img.shields.io/badge/Sponsor-%E2%9D%A4-pink?logo=github)](https://github.com/sponsors/Swevo)
+
+> 💼 **Need .NET resilience help?** Visit [solidqualitysolutions.com](https://solidqualitysolutions.com/) for consulting and architecture services.
+
 ## License
 
 MIT
