@@ -1,0 +1,91 @@
+# Polly.Contrib.Bulkhead
+
+<img src="icon.png" width="100" align="right" />
+
+[![NuGet](https://img.shields.io/nuget/v/Polly.Contrib.Bulkhead.svg)](https://www.nuget.org/packages/Polly.Contrib.Bulkhead)
+[![CI](https://github.com/Swevo/Polly.Contrib.Bulkhead/actions/workflows/build.yml/badge.svg)](https://github.com/Swevo/Polly.Contrib.Bulkhead/actions/workflows/build.yml)
+
+Bulkhead isolation strategy for **Polly v8** resilience pipelines. Limits concurrent executions and queued actions, rejecting excess calls with `BulkheadRejectedException`.
+
+Polly v8 replaced the v7 `BulkheadPolicy` with the more general `RateLimiter` strategy. This package restores the familiar bulkhead semantics — explicit **max concurrency** and **max queue depth** — as a first-class Polly v8 resilience strategy.
+
+## Install
+
+```
+dotnet add package Polly.Contrib.Bulkhead
+```
+
+## Usage
+
+### Simple concurrency limit
+
+```csharp
+using Polly.Contrib.Bulkhead;
+
+var pipeline = new ResiliencePipelineBuilder()
+    .AddBulkhead(maxConcurrency: 10)
+    .Build();
+
+await pipeline.ExecuteAsync(async ct => await CallDownstreamAsync(ct), cancellationToken);
+```
+
+### With a queue
+
+```csharp
+var pipeline = new ResiliencePipelineBuilder()
+    .AddBulkhead(maxConcurrency: 10, maxQueuedActions: 20)
+    .Build();
+```
+
+Calls beyond the 10 concurrent slots queue up. If the queue also fills (>20 waiting), further calls throw `BulkheadRejectedException`.
+
+### Full options
+
+```csharp
+var pipeline = new ResiliencePipelineBuilder()
+    .AddBulkhead(new BulkheadStrategyOptions
+    {
+        MaxConcurrency = 10,
+        MaxQueuedActions = 20,
+        OnBulkheadRejected = args =>
+        {
+            logger.LogWarning("Bulkhead rejected call for {Operation}", args.Context.OperationKey);
+            return ValueTask.CompletedTask;
+        },
+    })
+    .Build();
+```
+
+### Generic pipeline
+
+```csharp
+var pipeline = new ResiliencePipelineBuilder<HttpResponseMessage>()
+    .AddBulkhead<HttpResponseMessage>(maxConcurrency: 5)
+    .AddRetry(...)
+    .Build();
+```
+
+## Behaviour
+
+| Scenario | Outcome |
+|---|---|
+| Slots available | Executes immediately |
+| Slots full, queue not full | Waits in queue |
+| Slots full, queue full | Throws `BulkheadRejectedException` |
+| No queuing (`MaxQueuedActions = 0`) | Rejects immediately when at capacity |
+
+## Composition
+
+Place bulkhead **before** retry so rejected calls don't get retried:
+
+```csharp
+var pipeline = new ResiliencePipelineBuilder()
+    .AddBulkhead(maxConcurrency: 10)  // 1. limit concurrency first
+    .AddRetry(...)                     // 2. retry transient failures
+    .AddCircuitBreaker(...)            // 3. protect downstream
+    .Build();
+```
+
+## License
+
+MIT
