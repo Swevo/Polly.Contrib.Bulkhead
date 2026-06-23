@@ -114,6 +114,8 @@ If Polly.Contrib.Bulkhead helps protect your services, consider supporting the p
 | [PollyRateLimiter](https://www.nuget.org/packages/PollyRateLimiter) | Rate limiting strategies |
 | [PollyOpenTelemetry](https://www.nuget.org/packages/PollyOpenTelemetry) | OpenTelemetry metrics & tracing |
 
+| [PollyRabbitMQ](https://www.nuget.org/packages/PollyRabbitMQ) | Polly v8 resilience for RabbitMQ.Client channels |
+
 ## License
 
 MIT
