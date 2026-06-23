@@ -3,6 +3,7 @@
 <img src="icon.png" width="100" align="right" />
 
 [![NuGet](https://img.shields.io/nuget/v/Polly.Contrib.Bulkhead.svg)](https://www.nuget.org/packages/Polly.Contrib.Bulkhead)
+[![NuGet Downloads](https://img.shields.io/nuget/dt/Polly.Contrib.Bulkhead.svg)](https://www.nuget.org/packages/Polly.Contrib.Bulkhead)
 [![CI](https://github.com/Swevo/Polly.Contrib.Bulkhead/actions/workflows/build.yml/badge.svg)](https://github.com/Swevo/Polly.Contrib.Bulkhead/actions/workflows/build.yml)
 
 Bulkhead isolation strategy for **Polly v8** resilience pipelines. Limits concurrent executions and queued actions, rejecting excess calls with `BulkheadRejectedException`.
@@ -93,6 +94,17 @@ If Polly.Contrib.Bulkhead helps protect your services, consider supporting the p
 [![Sponsor](https://img.shields.io/badge/Sponsor-%E2%9D%A4-pink?logo=github)](https://github.com/sponsors/Swevo)
 
 > 💼 **Need .NET resilience help?** Visit [solidqualitysolutions.com](https://solidqualitysolutions.com/) for consulting and architecture services.
+
+## Related packages
+
+| Package | Description |
+|---|---|
+| [PollyChaos](https://www.nuget.org/packages/PollyChaos) | Chaos engineering — inject faults & latency (Simmy for v8) |
+| [PollyBackoff](https://www.nuget.org/packages/PollyBackoff) | Backoff delay strategies |
+| [PollyHealthChecks](https://www.nuget.org/packages/PollyHealthChecks) | ASP.NET Core health check integration |
+| [PollyCaching](https://www.nuget.org/packages/PollyCaching) | Caching resilience strategy |
+| [PollyRateLimiter](https://www.nuget.org/packages/PollyRateLimiter) | Rate limiting strategies |
+| [PollyOpenTelemetry](https://www.nuget.org/packages/PollyOpenTelemetry) | OpenTelemetry metrics & tracing |
 
 ## License
 
