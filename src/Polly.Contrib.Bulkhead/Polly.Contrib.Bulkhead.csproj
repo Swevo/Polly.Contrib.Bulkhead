@@ -7,7 +7,7 @@
     <LangVersion>latest</LangVersion>
     <GenerateDocumentationFile>true</GenerateDocumentationFile>
 
-    <PackageId>Polly.Contrib.Bulkhead</PackageId>
+    <PackageId>PollyBulkhead</PackageId>
     <Version>1.0.0</Version>
     <Authors>Justin Bannister</Authors>
     <Description>Bulkhead isolation strategy for Polly v8 resilience pipelines. Limits concurrent executions and queued actions, rejecting excess calls with BulkheadRejectedException — the v7 BulkheadPolicy for the new API.</Description>
